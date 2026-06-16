@@ -1,6 +1,5 @@
 "use strict";
 
-import { dom } from "./dom.js";
 import { handleRevealSection, observerOptions } from "./sectionObserver.js";
 import { state, getAllProducts, getProduct } from "./model.js";
 import marqueeView from "./animation/marqueeView.js";
@@ -25,7 +24,7 @@ const controlMarquee = function () {
 };
 
 const controlCartBehaviour = function () {
-  cartView._toggleCart();
+  cartView.toggleCart();
 };
 
 const controlProductView = async function () {
@@ -34,8 +33,6 @@ const controlProductView = async function () {
     const data = state.products;
     productView.renderCategory(data);
     productView.renderProducts(data);
-
-    // dom.shopSection.classList.remove("section--hidden");
   } catch (err) {
     console.error(err);
   }
@@ -46,8 +43,14 @@ const categoryClicksController = function(hashID) {
 }
 
 const productClicksController = async function(API, ID) {
+  productDetailView.openProductDisplay()
   await getProduct(API, ID);
-  console.log(state.product)
+  productDetailView.render(state.product)
+  console.log(state.product);
+}
+
+const controlAddTocartBehaviour = function () {
+  productDetailView.toastBehavior()
 }
 
 const init = async function () {
@@ -63,6 +66,8 @@ const init = async function () {
 
   await controlProductView();
   productView.addHandlerClicks(categoryClicksController)
-  productDetailView.addHandlerProductClicks(productClicksController)
+  productView.addHandlerProductClicks(productClicksController)
+  productDetailView.closeProductHandler()
+  productDetailView.addAddToCartHandler(controlAddTocartBehaviour)
 };
 init();

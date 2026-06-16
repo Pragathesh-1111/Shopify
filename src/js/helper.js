@@ -79,3 +79,11 @@ export const normalizeSingleFake = function (
     ratingStars: STARS[Math.floor(product.rating.rate * 2) / 2],
   };
 };
+
+export const renderSpinner = function (parentElement) {
+  parentElement.innerHTML = `
+    <div class="loader-container">
+      <div class="loader"></div>
+    </div>
+  `;
+};

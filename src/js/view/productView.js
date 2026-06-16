@@ -26,13 +26,23 @@ class ProductView {
     this._renderCategoryDivision(allCategories);
   }
 
-  addHandlerClicks(handler){
-    this._categoryElement.addEventListener('click', function (e) {
-        const element = e.target.closest('.cat--card')
-        if(!element) return;
-        const hashID = `#${element.dataset.id}`
-        handler(hashID)
-    })
+  addHandlerClicks(handler) {
+    this._categoryElement.addEventListener("click", function (e) {
+      const element = e.target.closest(".cat--card");
+      if (!element) return;
+      const hashID = `#${element.dataset.id}`;
+      handler(hashID);
+    });
+  }
+
+  addHandlerProductClicks(handler) {
+    this._categoryDivisionElement.addEventListener("click", function (e) {
+      const element = e.target.closest(".product--card");
+      if (!element) return;
+
+      const [API, id] = element.dataset.id.split("-");
+      handler(API, id);
+    });
   }
 
   _renderCategoryDivision(categories) {

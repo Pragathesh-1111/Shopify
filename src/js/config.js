@@ -9,10 +9,17 @@ import {
   appleSVG,
 } from "../assets/icons.js";
 
-const currency = {
-  indian: "&#8377;",
-  usa: "$",
+
+// 1 USD = 1 * multipleValue;
+export const currency = {
+  india: {symbol:"&#8377;", multipleValueUSD: 94.46},
+  germany: {symbol:"&euro;", multipleValueUSD: 0.86},
+  
 };
+
+export const convertingMoney = function (country, price) {
+  return `${(price * currency[country].multipleValueUSD).toFixed(2)}`
+}
 
 export const heroImg = {
   images: [

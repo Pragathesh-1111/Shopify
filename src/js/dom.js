@@ -2,14 +2,19 @@ const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 
 export const dom = {
-    heroImage: $('.hero--visual-image'),
+    closeCartBTN: $('.cart--close'),
     cartBTN: $('.cart-btn'),
+    productClose: $('.product-detail__close'),
+    toast:$('.toast'),
+
+    heroImage: $('.hero--visual-image'),
     headerNav: $('.header'),
     overlay: $('.cart--overlay'),
     cartDrawer: $('.cart--drawer'),
-    closeCartBTN: $('.cart--close'),
     marqueeTrack: $('.marquee-track'),
     categoryParentElement: $('.categories--grid'),
     categoryDivisionParentElement: $('.all-category-divisions'),
-    shopSection: $('.shop')
+    productDetailElement: $('.product-detail'),
+    productDetailContainter: $('.product-detail__container'),
+    singleProductOverlay: $('.single--product-overlay')
 }

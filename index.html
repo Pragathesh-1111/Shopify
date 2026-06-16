@@ -14,13 +14,17 @@
     <link rel="stylesheet" href="./src/style/style.css" />
     <script defer type="module" src="./src/js/controller.js"></script>
   </head>
+
   <body class="">
-    <!-- <div class="loader-container">
-      <div class="loader"></div>
-    </div> -->
-    <div class="toast" style="display: none" id="toast">Added to cart</div>
+
+    <div id="toast-container" class="toast-container">
+      <div id="toast" class="toast hidden">
+        <span class="toast-message">Added to card !</span>
+      </div>
+    </div>
+
     <div class="cart--overlay"></div>
-    <!-- <div class="single--product-overlay open"></div> -->
+    <div class="single--product-overlay"></div>
 
     <!-- Cart Container -->
     <div class="cart--drawer">
@@ -65,9 +69,56 @@
 
     <!-- Product DETAILS -->
 
-    <!-- <div class="product-detail">
-      <button class=" btn--close product--close">&times;</button>
-    </div> -->
+    <div class="product-detail">
+      <button class="product-detail__close">&times;</button>
+
+      <div class="product-detail__container">
+        <!-- 
+          <div class="product-detail__gallery">
+            <img
+              src="product-image.jpg"
+              alt="Product Name"
+              class="product-detail__image"
+            />
+          </div>
+
+          <div class="product-detail__content">
+            <span class="product-detail__category">Electronics</span>
+
+            <h2 class="product-detail__title">
+              Apple AirPods Pro (2nd Generation)
+            </h2>
+
+            <div class="product-detail__rating">
+              ★★★★☆
+            </div>
+
+            <div class="product-detail__price">
+              <span class="product-detail__price--current">$199</span>
+            </div>
+
+            <p class="product-detail__description">
+              Experience immersive sound with Active Noise Cancellation,
+              Adaptive Transparency, and all-day comfort.
+            </p>
+
+            <div class="product-detail__meta">
+              <p><strong>Shipping:</strong> Free Delivery</p>
+            </div>
+
+            <div class="product-detail__actions">
+              <div class="product-detail__quantity">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+              </div>
+
+              <button class="btn btn--primary">Add to Cart</button>
+            </div>
+          </div>
+          -->
+      </div>
+    </div>
 
     <header class="header">
       <a href="#" class="logo">SPFY</a>
