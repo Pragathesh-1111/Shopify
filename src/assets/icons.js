@@ -1,0 +1,8 @@
+export {default as menShirtSVG} from './menShirt.js'
+export {default as jewelerySVG} from './jewelery.js'
+export {default as womenDressSVG} from './womenDress.js'
+export {default as electronicsSVG} from './electronic.js'
+export {default as lipstickSVG} from './lipstick.js'
+export {default as perfumeSVG} from './perfume.js'
+export {default as furnitureSVG} from './furniture.js'
+export {default as appleSVG} from './apple.js'

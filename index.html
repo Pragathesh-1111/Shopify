@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Suisse+Int%27l+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/style/style.css" />
+    <script defer type="module" src="./src/js/controller.js"></script>
+  </head>
+  <body class="">
+    <div class="toast" style="display: none" id="toast">Added to cart</div>
+    <div class="cart--overlay"></div>
+    <!-- <div class="single--product-overlay open"></div> -->
+    
+    <!-- Cart Container -->
+    <div class="cart--drawer">
+      <!-- HEADER -->
+      <div class="drawer--header">
+        <h2>Cart</h2>
+        <button class="btn--close cart--close">&times;</button>
+      </div>
+
+      <!-- ITEM DETAILS -->
+      <div class="cart--items">
+        <div class="cart--item">
+          <div class="cart--item-image">
+            <img src="./src/image/shirt-img1.jpg" alt="Image" />
+          </div>
+          <div>
+            <h3 class="cart--item-name">Item 1</h3>
+            <h3 class="cart--item-category">sports</h3>
+            <div class="cart--item-quantity">
+              <button>−</button><span>1</span><button>+</button>
+            </div>
+          </div>
+          <p class="cart--item-price"><em>2,000&#8377;</em></p>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="cart--footer">
+        <div class="cart--footer-subtotal">
+          <span>subtotal</span>
+          <span id="id--subtotal"><em>2,000&#8377;</em></span>
+        </div>
+        <div class="cart--footer-total">
+          <span>Total</span>
+          <span id="id--checkout-total"><em>2,000&#8377;</em></span>
+        </div>
+        <button class="primary-btn checkout-btn">
+          Proceed to checkout &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Product DETAILS -->
+    
+    <!-- <div class="product-detail">
+      <button class=" btn--close product--close">&times;</button>
+    </div> -->
+
+    <header class="header">
+      <a href="#" class="logo">SPFY</a>
+      <nav class="nav--container">
+        <a href="#">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#new">New</a>
+        <a href="#shop">Shop</a>
+      </nav>
+      <div class="cart-btn-container">
+        <button class="cart-btn">cart <span class="cart-count">0</span></button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero--text">
+        <p class="hero-eyebrow">Spring / Summer 2026</p>
+        <h1 class="hero-title">
+          Objects of <br />
+          <em>pure intention</em>
+        </h1>
+        <p class="hero-sub">
+          A curated collection of garments and essentials, selected for their
+          form, function, and permanence.
+        </p>
+        <a href="#categories" class="primary-btn hero-explore-btn"
+          >Explore Collection <span class="hero-cta-arrow">&rarr;</span></a
+        >
+      </div>
+
+      <div class="hero--visual">
+        <img class="hero-img hero-img--1" src="./src/image/shirt-img1.jpg" />
+        <img class="hero-img hero-img--2" />
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-container">
+      <div class="marquee-track">
+        <!-- <div class="marquee-item">24 Hours</div> -->
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <section id="categories" class="categories">
+      <div class="section--header section--header-padding">
+        <div>
+          <p class="section--label">Browse</p>
+          <h2 class="section--title">By Category</h2>
+        </div>
+      </div>
+      <div class="categories--grid">
+        <!-- <div class="cat--card">
+          <div class="cat--card-icon"> <svg>...<svg/> </div>
+          <span class="cat--card-label">Shirt</span>
+        </div> -->
+      </div>
+    </section>
+
+    <section id="shop" class="shop">
+      <div class="section--header">
+        <div>
+          <p class="section--label">purchase</p>
+          <h2 class="section--title">In Shop</h2>
+        </div>
+      </div>
+      <div class="all-category-divisions">
+        <!-- <div id="category-men-clothes" class="category-division">
+          <div class="shop--category-division-header">Men's wear</div>
+           
+          <div class="products--grid">
+             
+          </div>
+           
+        </div> -->
+      </div>
+    </section>
+  </body>
+</html>
