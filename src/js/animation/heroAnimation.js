@@ -3,7 +3,7 @@ class HeroAnimation {
 
   async startRotation(state) {
     const images = state.heroImages;
-
+    console.log(images);
     let current = 0;
 
     let front = this._imgs[0];

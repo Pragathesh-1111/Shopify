@@ -1,7 +1,3 @@
-import shirt1 from "../image/shirt-img1.jpg";
-import shirt2 from "../image/shirt-img2.jpg";
-import shirt3 from "../image/shirt-img3.jpg";
-import shirt4 from "../image/shirt-img4.jpg";
 import {
   menShirtSVG,
   jewelerySVG,
@@ -28,7 +24,12 @@ export const convertingMoney = function (country, price) {
 
 
 export const heroImg = {
-  images: [shirt1, shirt2, shirt3, shirt4],
+  images: [
+    new URL("../image/shirt-img1.jpg", import.meta.url).href,
+    new URL("../image/shirt-img2.jpg", import.meta.url).href,
+    new URL("../image/shirt-img3.jpg", import.meta.url).href,
+    new URL("../image/shirt-img4.jpg", import.meta.url).href,
+  ],
   duration: 5, // In seconds
   fadeDuration: 1200, // In Milliseconds
 };
@@ -43,7 +44,7 @@ export const marqueeMessage = [
 ];
 export const marqueeSpeed = 13; // In seconds
 
-export const URL = {
+export const API_URLS = {
   API_URL_DUMMY: "https://dummyjson.com/products/",
   API_URL_FAKE: "https://fakestoreapi.com/products/",
 };

@@ -2,7 +2,7 @@ import {
   marqueeMessage,
   marqueeSpeed,
   heroImg,
-  URL,
+  API_URLS,
   categoryID,
   STARS,
 } from "./config.js";
@@ -37,8 +37,8 @@ export const state = {
 export const getAllProducts = async function () {
   try {
     const [dummyData, fakeData] = await Promise.all([
-      getJSON(URL.API_URL_DUMMY),
-      getJSON(URL.API_URL_FAKE),
+      getJSON(API_URLS.API_URL_DUMMY),
+      getJSON(API_URLS.API_URL_FAKE),
     ]);
 
     const products = [
@@ -53,7 +53,7 @@ export const getAllProducts = async function () {
 
 export const getProduct = async function (API, ID) {
   try {
-    const data = await getJSON(`${URL["API_URL_" + API]}`, ID);
+    const data = await getJSON(`${API_URLS["API_URL_" + API]}`, ID);
     state.product =
       API === "DUMMY"
         ? normalizeSingleDummy(data, categoryID, STARS)
