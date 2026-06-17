@@ -1,3 +1,7 @@
+import shirt1 from "../image/shirt-img1.jpg";
+import shirt2 from "../image/shirt-img2.jpg";
+import shirt3 from "../image/shirt-img3.jpg";
+import shirt4 from "../image/shirt-img4.jpg";
 import {
   menShirtSVG,
   jewelerySVG,
@@ -22,20 +26,16 @@ export const convertingMoney = function (country, price) {
   return `${(price * currency[country].multipleValueUSD).toFixed(2)}`
 }
 
+
 export const heroImg = {
-  images: [
-    "./src/image/shirt-img1.jpg",
-    "./src/image/shirt-img2.jpg",
-    "./src/image/shirt-img3.jpg",
-    "./src/image/shirt-img4.jpg",
-  ],
+  images: [shirt1, shirt2, shirt3, shirt4],
   duration: 5, // In seconds
   fadeDuration: 1200, // In Milliseconds
 };
 
 export const marqueeMessage = [
   "24 Hours Available",
-  `Free Shipping Over 1500${currency.indian}`,
+  `Free Shipping Over 1500${currency.india.symbol}`,
   "New Arrivals Weekly",
   "30 Days Return",
   "World Wide Delivery",
