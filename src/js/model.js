@@ -12,7 +12,10 @@ import {
   normalizedFake,
   normalizeSingleDummy,
   normalizeSingleFake,
+  findCartItem
 } from "./helper.js";
+
+///////////////////////////////////
 
 export const state = {
   marquee: marqueeMessage,
@@ -26,6 +29,9 @@ export const state = {
   products: [], // Main array of all products
 
   product: null,
+  productCount: 1,
+
+  cartItems: [],
 };
 
 export const getAllProducts = async function () {
@@ -56,3 +62,49 @@ export const getProduct = async function (API, ID) {
     throw err;
   }
 };
+
+export const addStateToCart = function (product, productCount) {
+  const alreadyExist = state.cartItems.some(
+    (item) =>
+      item.product?.id === product?.id && item.product?.API === product.API,
+  );
+  if (alreadyExist) {
+    return (state.cartItems.find(
+      (item) => item.product.id === product.id,
+    ).count += productCount);
+  }
+
+  state.cartItems.push({
+    product,
+    count: productCount,
+  });
+};
+
+export const resetCurrentProductState = function () {
+  state.product = null;
+  state.productCount = 1;
+};
+
+export const clearCartsState = function () {
+  state.cartItems = []
+}
+
+export const increaseProductViewItemCount = function () {
+  state.productCount++;
+};
+export const decreaseProductViewItemCount = function () {
+  if (1 >= state.productCount) return;
+  state.productCount--;
+};
+
+export const increaseCartViewItemCount = function(product) {
+  const existingProduct = findCartItem(state.cartItems, product)
+  existingProduct.count++
+  return existingProduct
+}
+export const decreaseCartViewItemCount = function(product) {
+  const existingProduct = findCartItem(state.cartItems, product)
+  if(1 >= existingProduct.count) return
+  existingProduct.count--
+  return existingProduct
+}

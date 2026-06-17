@@ -1,3 +1,5 @@
+import { convertingMoney, currency } from "./config.js";
+
 export const normalizedDummy = function (data, categoryID, ratingSTARS) {
   return data.products.map((product) => {
     return {
@@ -36,43 +38,30 @@ export const normalizedFake = function (data, categoryID, ratingSTARS) {
 export const truncateTitle = function (title, limit = 3) {
   const words = title.split(" ");
   if (words.length <= limit) return title;
- 
+
   return words.slice(0, limit).join(" ") + "...";
 };
 
-export const normalizeSingleDummy = function (
-  product,
-  categoryID,
-  STARS
-) {
+export const normalizeSingleDummy = function (product, categoryID, STARS) {
   return {
     id: product.id,
     API: "DUMMY",
     title: product.title,
     dataID: categoryID[product.category],
-    price: product.price,
+    price: `${currency.india.symbol}${convertingMoney("india", product.price)}`,
     description: product.description,
     category: product.category,
     image: product.images[0],
-    ratingStars:
-      STARS[
-        Math.round(
-          product.rating * 2
-        ) / 2
-      ],
+    ratingStars: STARS[Math.round(product.rating * 2) / 2],
   };
 };
-export const normalizeSingleFake = function (
-  product,
-  categoryID,
-  STARS
-) {
+export const normalizeSingleFake = function (product, categoryID, STARS) {
   return {
     id: product.id,
     API: "FAKE",
     title: product.title,
     dataID: categoryID[product.category],
-    price: product.price,
+    price: `${currency.india.symbol}${convertingMoney("india", product.price)}`,
     description: product.description,
     category: product.category,
     image: product.image,
@@ -86,4 +75,25 @@ export const renderSpinner = function (parentElement) {
       <div class="loader"></div>
     </div>
   `;
+};
+
+export const toastBehaviorHelper = function (
+  domContainer,
+  domMessage,
+  message,
+  toastDisapprearTime,
+) {
+  domMessage.innerHTML = message;
+  domContainer.classList.remove("hidden");
+
+  setTimeout(() => {
+    domContainer.classList.add("hidden");
+  }, toastDisapprearTime * 1000);
+};
+
+export const findCartItem = function (cartItems, product) {
+  const [API, id] = product.id.split("-");
+  return cartItems.find(
+    (item) => item.product?.id === +id && item.product.API === API,
+  );
 };

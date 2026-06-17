@@ -9,6 +9,7 @@ import {
   appleSVG,
 } from "../assets/icons.js";
 
+export const toastDisapprearTime = 2 // Seconds
 
 // 1 USD = 1 * multipleValue;
 export const currency = {

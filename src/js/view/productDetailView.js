@@ -1,14 +1,12 @@
 import { dom } from "../dom.js";
 import { renderSpinner } from "../helper.js";
-import { convertingMoney, currency} from "../config.js";
 
 class ProductDetailView {
   _parentElement = dom.productDetailElement;
-  _productContainer = dom.productDetailContainter
+  _productContainer = dom.productDetailContainter;
 
   render(product) {
-      this._productContainer.innerHTML = this._productMarkup(product)
-
+    this._productContainer.innerHTML = this._productMarkup(product);
   }
 
   openProductDisplay() {
@@ -24,9 +22,13 @@ class ProductDetailView {
     dom.productDetailElement.classList.remove("open");
   }
 
-  closeProductHandler() {
+  closeProductHandler(reset) {
+    const e = this;
     [dom.singleProductOverlay, dom.productClose].forEach((el) => {
-      el.addEventListener("click", this.closeProductDisplay.bind(this));
+      el.addEventListener("click", function () {
+        e.closeProductDisplay();
+        reset();
+      });
     });
   }
 
@@ -55,7 +57,7 @@ class ProductDetailView {
             </div>
 
             <div class="product-detail__price">
-              <span class="product-detail__price--current">${currency.india.symbol}${convertingMoney('india', product.price)}</span>
+              <span class="product-detail__price--current">${product.price}</span>
             </div>
 
             <p class="product-detail__description">
@@ -68,28 +70,27 @@ class ProductDetailView {
 
             <div class="product-detail__actions">
               <div class="product-detail__quantity">
-                <button>-</button>
-                <span>1</span>
-                <button>+</button>
+                <button class="product-detail-adjust-btn product-detail__reduce-btn">-</button>
+                <span class="product-detail__count">1</span>
+                <button class="product-detail-adjust-btn product-detail__increase-btn">+</button>
               </div>
 
-              <button class="btn btn--primary add-to-card-btn">Add to Cart</button>
+              <button class="btn btn--primary add-to-cart-btn">Add to Cart</button>
             </div>
           </div>
-    `
+    `;
   }
 
-  addAddToCartHandler(handler){
-    this._productContainer.addEventListener('click', function(e){
-        if(!e.target.classList.contains('add-to-card-btn')) return
-        handler()
+  productCountHandler(handler){
+    this._parentElement.addEventListener('click', function(e) {
+      const btn = e.target.closest('.product-detail-adjust-btn')
+      if(!btn) return
+      handler(btn)
     })
   }
 
-  toastBehavior(){
-    dom.toast.classList.remove('hidden')
-
-    setTimeout(() => dom.toast.classList.add('hidden'), 4000)
+  adjustProductViewItemCount(count) {
+    document.querySelector('.product-detail__count').innerHTML = count
   }
 
   _showLoading() {

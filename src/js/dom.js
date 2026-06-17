@@ -6,6 +6,8 @@ export const dom = {
     cartBTN: $('.cart-btn'),
     productClose: $('.product-detail__close'),
     toast:$('.toast'),
+    toastMessage:$('.toast-message'),
+    cartNavCount: $('.cart--nav-count'),
 
     heroImage: $('.hero--visual-image'),
     headerNav: $('.header'),
