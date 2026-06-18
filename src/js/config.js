@@ -31,7 +31,7 @@ export const countriesAvailable = {
     symbol: "€",
   },
 };
-export let selectedCountry = "Germany";
+export let selectedCountry = "India";
 
 export const toastDisapprearTime = 2; // Seconds
 
