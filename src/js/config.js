@@ -11,29 +11,29 @@ import {
 
 // In USD
 export const BASE_CHARGES_FREEDELIVERY = {
-  freeDelivery: 15.80, //$
-  charges: 2 //$
-}
-
-
-// 1 USD = 1 * multipleValue;
-export const currency = {
-  india: {symbol:"&#8377;", multipleValueUSD: 94.46},
-  germany: {symbol:"&euro;", multipleValueUSD: 0.86},
+  freeDelivery: 15.8, //$
+  charges: 2, //$
 };
+
+export const API_CURRENCY = {
+  HTTP: "https://v6.exchangerate-api.com/v6/",
+  ID: "0288d7d0c2bd2535ab767021",
+};
+import { priceConversion } from "./configCurrency.js";
+
 export const countriesAvailable = {
   India: {
-    countryCode : 'INR',
-    symbol:"₹"
+    countryCode: "INR",
+    symbol: "₹",
   },
   Germany: {
-    countryCode : 'EUR',
-    symbol:"€"
+    countryCode: "EUR",
+    symbol: "€",
   },
-}
-export let selectedCountry = 'India'
+};
+export let selectedCountry = "Germany";
 
-export const toastDisapprearTime = 2 // Seconds
+export const toastDisapprearTime = 2; // Seconds
 
 export const heroImg = {
   images: [
@@ -48,7 +48,7 @@ export const heroImg = {
 
 export const marqueeMessage = [
   "24 Hours Available",
-  `Free Shipping Over 1500${countriesAvailable[selectedCountry].symbol}`,
+  `Free Shipping Over ${await priceConversion(BASE_CHARGES_FREEDELIVERY.freeDelivery).then((el) => Math.trunc(el.price))}${countriesAvailable[selectedCountry].symbol}`,
   "New Arrivals Weekly",
   "30 Days Return",
   "World Wide Delivery",
@@ -60,11 +60,6 @@ export const API_URLS = {
   API_URL_DUMMY: "https://dummyjson.com/products/",
   API_URL_FAKE: "https://fakestoreapi.com/products/",
 };
-
-export const API_CURRENCY = {
-  HTTP: 'https://v6.exchangerate-api.com/v6/',
-  ID: '0288d7d0c2bd2535ab767021'
-}
 
 export const SVGs = {
   "men's clothing": menShirtSVG,
@@ -78,14 +73,14 @@ export const SVGs = {
 };
 
 export const categoryID = {
-  "men's clothing": 'category-men-clothes',
-  "women's clothing": 'category-women-clothes',
-  jewelery: 'category-jewelery',
-  electronics: 'category-electronics',
-  beauty: 'category-lipstick',
-  fragrances: 'category-perfume',
-  furniture: 'category-furniture',
-  groceries: 'category-grocery',
+  "men's clothing": "category-men-clothes",
+  "women's clothing": "category-women-clothes",
+  jewelery: "category-jewelery",
+  electronics: "category-electronics",
+  beauty: "category-lipstick",
+  fragrances: "category-perfume",
+  furniture: "category-furniture",
+  groceries: "category-grocery",
 };
 
 export const STARS = {
