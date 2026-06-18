@@ -1,4 +1,6 @@
-import { convertingMoney, currency } from "./config.js";
+import { priceConversion } from "./configCurrency.js";
+import { selectedCountry } from "./config.js";
+import { dom } from "./dom.js";
 
 export const normalizedDummy = function (data, categoryID, ratingSTARS) {
   return data.products.map((product) => {
@@ -10,7 +12,6 @@ export const normalizedDummy = function (data, categoryID, ratingSTARS) {
       ratingStars: ratingSTARS[Math.floor(product.rating * 2) / 2],
       reviews: [...product.reviews],
       hashID: categoryID[product.category],
-      price: product.price,
       description: product.description,
       category: product.category,
       image: product.images[0],
@@ -27,7 +28,6 @@ export const normalizedFake = function (data, categoryID, ratingSTARS) {
       title: product.title,
       rating: product.rating.rate,
       ratingStars: ratingSTARS[Math.floor(product.rating.rate * 2) / 2],
-      price: product.price,
       description: product.description,
       category: product.category,
       image: product.image,
@@ -42,26 +42,35 @@ export const truncateTitle = function (title, limit = 3) {
   return words.slice(0, limit).join(" ") + "...";
 };
 
-export const normalizeSingleDummy = function (product, categoryID, STARS) {
+export const normalizeSingleDummy = async function (
+  product,
+  categoryID,
+  STARS,
+) {
+  const priceConvert = await priceConversion(product.price, selectedCountry);
   return {
     id: product.id,
     API: "DUMMY",
     title: product.title,
     dataID: categoryID[product.category],
-    price: `${currency.india.symbol}${convertingMoney("india", product.price)}`,
+    price: +(priceConvert.price).toFixed(2),
+    symbol: priceConvert.symbol,
     description: product.description,
     category: product.category,
     image: product.images[0],
     ratingStars: STARS[Math.round(product.rating * 2) / 2],
   };
 };
-export const normalizeSingleFake = function (product, categoryID, STARS) {
+
+export const normalizeSingleFake = async function (product, categoryID, STARS) {
+  const priceConvert = await priceConversion(product.price, selectedCountry);
   return {
     id: product.id,
     API: "FAKE",
     title: product.title,
     dataID: categoryID[product.category],
-    price: `${currency.india.symbol}${convertingMoney("india", product.price)}`,
+    price: +(priceConvert.price).toFixed(2),
+    symbol: priceConvert.symbol,
     description: product.description,
     category: product.category,
     image: product.image,
@@ -97,3 +106,8 @@ export const findCartItem = function (cartItems, product) {
     (item) => item.product?.id === +id && item.product.API === API,
   );
 };
+
+export const emptyCartHelper = function() {
+  dom.cartItemsSlot.innerHTML = `<div class="empty--cart"><h2>Your cart is empty</h2></div>`
+  dom.subTotal.innerHTML = dom.total.innerHTML = '-----'
+}

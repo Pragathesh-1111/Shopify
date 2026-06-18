@@ -14,9 +14,6 @@ import {
   normalizeSingleFake,
   findCartItem
 } from "./helper.js";
-
-///////////////////////////////////
-
 export const state = {
   marquee: marqueeMessage,
   marqueeSpeed,
@@ -28,6 +25,7 @@ export const state = {
   categories: [],
   products: [], // Main array of all products
 
+  prevProduct: null,
   product: null,
   productCount: 1,
 
@@ -56,8 +54,8 @@ export const getProduct = async function (API, ID) {
     const data = await getJSON(`${API_URLS["API_URL_" + API]}`, ID);
     state.product =
       API === "DUMMY"
-        ? normalizeSingleDummy(data, categoryID, STARS)
-        : normalizeSingleFake(data, categoryID, STARS);
+        ? await normalizeSingleDummy(data, categoryID, STARS)
+        : await normalizeSingleFake(data, categoryID, STARS);
   } catch (err) {
     throw err;
   }
@@ -81,6 +79,7 @@ export const addStateToCart = function (product, productCount) {
 };
 
 export const resetCurrentProductState = function () {
+  state.prevProduct = state.product
   state.product = null;
   state.productCount = 1;
 };
@@ -104,7 +103,11 @@ export const increaseCartViewItemCount = function(product) {
 }
 export const decreaseCartViewItemCount = function(product) {
   const existingProduct = findCartItem(state.cartItems, product)
-  if(1 >= existingProduct.count) return
-  existingProduct.count--
-  return existingProduct
+
+  if(existingProduct.count > 1){
+    existingProduct.count--
+    return existingProduct
+  }
+  state.cartItems = state.cartItems.filter(item => item.product !== existingProduct.product)
+  return false;
 }

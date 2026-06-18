@@ -1,20 +1,54 @@
 import { dom } from "../dom.js";
-
+import { emptyCartHelper } from "../helper.js";
 
 class CartView {
   _parentElement = dom.cartDrawer;
 
-  render(cartItems) {
-    document.querySelector('.cart--items').innerHTML = ''
-
-    if(!cartItems) return
-
-    const allCartList = cartItems.map(itemObject => this._cartProductMarkup(itemObject)).join('')
-    document.querySelector('.cart--items').innerHTML = allCartList
+  checkCheckoutValid(list) {
+    return list.length > 0
   }
 
-  renderNavCount(cartItems = []){
-    dom.cartNavCount.innerHTML = cartItems.length
+  render(cartItems) {
+    document.querySelector(".cart--items").innerHTML = "";
+
+    if (cartItems.length === 0) return this.emptyCart();
+
+    const allCartList = cartItems
+      .map((itemObject) => this._cartProductMarkup(itemObject))
+      .join("");
+
+    const symbol = cartItems[0].product.symbol
+    const subTotal = this.calculateSubTotal(cartItems)
+
+    // Render
+    dom.cartItemsSlot.innerHTML = allCartList;
+    this.renderSubTotal(subTotal, symbol)
+    this._renderNavCount(cartItems);
+
+    return [subTotal, symbol];
+  }
+
+  renderSubTotal(total, symbol) {
+    dom.subTotal.innerHTML = `${symbol}${(+total).toFixed(2)}`
+  }
+  renderTotal(total, symbol) {
+    dom.total.innerHTML = `${symbol}${(+total).toFixed(2)}`
+  }
+
+  calculateSubTotal(cartItems) {
+    return cartItems.reduce(
+      (acc, cur) => acc + +(cur.product.price * cur.count).toFixed(2),
+      0,
+    );
+  }
+
+  _renderNavCount(cartItems = []) {
+    dom.cartNavCount.innerHTML = cartItems.length;
+  }
+
+  emptyCart(){
+    emptyCartHelper()
+    this._renderNavCount()
   }
 
   _cartProductMarkup(itemObject) {
@@ -29,10 +63,10 @@ class CartView {
             <div class="cart--item-quantity">
               <button class="cart--item-adjust-btn cart--item-decrease-btn">−</button><span class="cart--item__count">${itemObject.count}</span><button class="cart--item-adjust-btn cart--item-increase-btn">+</button>
             </div>
-          </div>
-          <p class="cart--item-price"><em>2,000&#8377;</em></p>
+            </div>
+            <p class="cart--item-price"><em>${itemObject.product.symbol}${(+itemObject.product.price * itemObject.count).toFixed(2)}</em></p>
         </div>
-    `
+    `;
   }
 
   addHandlerOpenCart(handler) {
@@ -56,22 +90,25 @@ class CartView {
     });
   }
 
-  cartItemCountHandler(handler){
-    this._parentElement.addEventListener('click', function(e) {
-      const product = e.target.closest('.cart--item')
-      const btn = e.target.closest('.cart--item-adjust-btn')
+  cartItemCountHandler(handler) {
+    this._parentElement.addEventListener("click", function (e) {
+      const product = e.target.closest(".cart--item");
+      const btn = e.target.closest(".cart--item-adjust-btn");
 
-      if(!btn || !product) return
+      if (!btn || !product) return;
 
-      handler(btn, product)
-    })
+      handler(btn, product);
+    });
   }
 
   adjustCartViewItemCount(adjustedItem) {
-    const cartToBeAdjusted = document.querySelector(`#${adjustedItem.product.API}-${adjustedItem.product.id} .cart--item__count`)
-    if(!cartToBeAdjusted) return
+    const cartToBeAdjusted = document.querySelector(
+      `#${adjustedItem.product.API}-${adjustedItem.product.id}`,
+    );
+    if (!cartToBeAdjusted) return;
 
-    cartToBeAdjusted.innerHTML = adjustedItem.count
+    cartToBeAdjusted.querySelector('.cart--item__count').innerHTML = adjustedItem.count;
+    cartToBeAdjusted.querySelector('.cart--item-price em').innerHTML = `${adjustedItem.product.symbol}${(adjustedItem.product.price * adjustedItem.count).toFixed(2)}`
   }
 
   toggleCart() {

@@ -57,7 +57,8 @@ class ProductDetailView {
             </div>
 
             <div class="product-detail__price">
-              <span class="product-detail__price--current">${product.price}</span>
+              <span class="product-detail__price--old"></span>
+              <span class="product-detail__price--current">${product.symbol}${product.price}</span>
             </div>
 
             <p class="product-detail__description">

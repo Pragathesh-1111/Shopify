@@ -244,6 +244,11 @@ nav a:hover::after {
   transform: translateX(100%);
 }
 
+.empty--cart{
+  text-align: center;
+  
+}
+
 .drawer--header {
   display: flex;
   align-items: center;

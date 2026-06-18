@@ -1,5 +1,6 @@
 "use strict";
 
+import { dom } from "./dom.js";
 import { handleRevealSection, observerOptions } from "./sectionObserver.js";
 import {
   state,
@@ -11,7 +12,7 @@ import {
   decreaseProductViewItemCount,
   increaseCartViewItemCount,
   decreaseCartViewItemCount,
-  clearCartsState
+  clearCartsState,
 } from "./model.js";
 import marqueeView from "./animation/marqueeView.js";
 import heroAnimation from "./animation/heroAnimation.js";
@@ -21,7 +22,8 @@ import productView from "./view/productView.js";
 import productDetailView from "./view/productDetailView.js";
 import { toastDisapprearTime } from "./config.js";
 import { toastBehaviorHelper } from "./helper.js";
-import { dom } from "./dom.js";
+import { getTotalLogic } from "./totalCalculationLogic.js";
+import { renderSpinner } from "./helper.js";
 
 ////////////////////////////////////////////////////////////
 
@@ -41,7 +43,6 @@ const controlMarquee = function () {
 const controlCart = function () {
   cartView.toggleCart();
 };
-
 
 const controlProductView = async function () {
   try {
@@ -68,11 +69,17 @@ const productClicksController = async function (API, ID) {
   }
 };
 
-const controlAddTocartBehaviour = function () {
+const controlAddTocart = async function () {
   addStateToCart(state.product, state.productCount);
-  cartView.render(state.cartItems);
-  cartView.renderNavCount(state.cartItems)
-  
+  const [subTotal, symbol] = cartView.render(state.cartItems);
+
+  // Logic for adding all taxes in FUTURE//
+
+  const total = await getTotalLogic(subTotal);
+  cartView.renderTotal(total, symbol);
+
+  //... ... ...
+
   toastBehaviorHelper(
     dom.toast,
     dom.toastMessage,
@@ -81,24 +88,45 @@ const controlAddTocartBehaviour = function () {
   );
 };
 
-const controlCartItemCount = function (btn, product) {
+const controlCartItemCount = async function (btn, product) {
   const adjustedItem = btn.classList.contains("cart--item-increase-btn")
-  ? increaseCartViewItemCount(product)
-  : decreaseCartViewItemCount(product);
+    ? increaseCartViewItemCount(product)
+    : decreaseCartViewItemCount(product);
+
+  if (!adjustedItem) {
+    cartView.render(state.cartItems);
+    return;
+  }
+  const subTotal = cartView.calculateSubTotal(state.cartItems)
+  cartView.adjustCartViewItemCount(adjustedItem);
+  cartView.renderSubTotal(subTotal, state.prevProduct.symbol);
   
-  if(!adjustedItem) return
-  cartView.adjustCartViewItemCount(adjustedItem)
+  renderSpinner(dom.total)
+
+
+  const total = await getTotalLogic(subTotal);
+  cartView.renderTotal(total, state.prevProduct.symbol);
 };
 
 const controlProductDetailItemCount = function (btn) {
   btn.classList.contains("product-detail__increase-btn")
-  ? increaseProductViewItemCount()
-  : decreaseProductViewItemCount();
-  
-  productDetailView.adjustProductViewItemCount(state.productCount)
+    ? increaseProductViewItemCount()
+    : decreaseProductViewItemCount();
+
+  productDetailView.adjustProductViewItemCount(state.productCount);
 };
 
 const controlCheckout = function () {
+  const valid = cartView.checkCheckoutValid(state.cartItems);
+
+  if (!valid)
+    return toastBehaviorHelper(
+      dom.toast,
+      dom.toastMessage,
+      "No items in cart !",
+      toastDisapprearTime,
+    );
+
   toastBehaviorHelper(
     dom.toast,
     dom.toastMessage,
@@ -106,10 +134,9 @@ const controlCheckout = function () {
     toastDisapprearTime,
   );
 
-  cartView.renderNavCount()
-  cartView.toggleCart()
-  clearCartsState()
-  cartView.render();
+  cartView.toggleCart();
+  clearCartsState();
+  cartView.emptyCart();
 };
 
 const init = async function () {
@@ -120,7 +147,7 @@ const init = async function () {
   cartView.addCheckoutHandler(controlCheckout);
   cartView.cartItemCountHandler(controlCartItemCount);
   productDetailView.productCountHandler(controlProductDetailItemCount);
-  
+
   document.querySelectorAll("section").forEach((section) => {
     section.classList.add("section--hidden");
     sectionObserver.observe(section);
@@ -130,6 +157,6 @@ const init = async function () {
   productView.addHandlerClicks(categoryClicksController);
   productView.addHandlerProductClicks(productClicksController);
   productDetailView.closeProductHandler(resetCurrentProductState);
-  addToCartView.addAddToCartHandler(controlAddTocartBehaviour);
+  addToCartView.addAddToCartHandler(controlAddTocart);
 };
 init();

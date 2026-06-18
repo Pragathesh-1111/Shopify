@@ -9,19 +9,31 @@ import {
   appleSVG,
 } from "../assets/icons.js";
 
-export const toastDisapprearTime = 2 // Seconds
+// In USD
+export const BASE_CHARGES_FREEDELIVERY = {
+  freeDelivery: 15.80, //$
+  charges: 2 //$
+}
+
 
 // 1 USD = 1 * multipleValue;
 export const currency = {
   india: {symbol:"&#8377;", multipleValueUSD: 94.46},
   germany: {symbol:"&euro;", multipleValueUSD: 0.86},
-  
 };
-
-export const convertingMoney = function (country, price) {
-  return `${(price * currency[country].multipleValueUSD).toFixed(2)}`
+export const countriesAvailable = {
+  India: {
+    countryCode : 'INR',
+    symbol:"₹"
+  },
+  Germany: {
+    countryCode : 'EUR',
+    symbol:"€"
+  },
 }
+export let selectedCountry = 'India'
 
+export const toastDisapprearTime = 2 // Seconds
 
 export const heroImg = {
   images: [
@@ -36,7 +48,7 @@ export const heroImg = {
 
 export const marqueeMessage = [
   "24 Hours Available",
-  `Free Shipping Over 1500${currency.india.symbol}`,
+  `Free Shipping Over 1500${countriesAvailable[selectedCountry].symbol}`,
   "New Arrivals Weekly",
   "30 Days Return",
   "World Wide Delivery",
@@ -48,6 +60,11 @@ export const API_URLS = {
   API_URL_DUMMY: "https://dummyjson.com/products/",
   API_URL_FAKE: "https://fakestoreapi.com/products/",
 };
+
+export const API_CURRENCY = {
+  HTTP: 'https://v6.exchangerate-api.com/v6/',
+  ID: '0288d7d0c2bd2535ab767021'
+}
 
 export const SVGs = {
   "men's clothing": menShirtSVG,

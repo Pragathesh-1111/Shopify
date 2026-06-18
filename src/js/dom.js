@@ -5,6 +5,7 @@ export const dom = {
     closeCartBTN: $('.cart--close'),
     cartBTN: $('.cart-btn'),
     productClose: $('.product-detail__close'),
+
     toast:$('.toast'),
     toastMessage:$('.toast-message'),
     cartNavCount: $('.cart--nav-count'),
@@ -18,5 +19,8 @@ export const dom = {
     categoryDivisionParentElement: $('.all-category-divisions'),
     productDetailElement: $('.product-detail'),
     productDetailContainter: $('.product-detail__container'),
-    singleProductOverlay: $('.single--product-overlay')
+    singleProductOverlay: $('.single--product-overlay'),
+    cartItemsSlot: $('.cart--items'),
+    subTotal: $('#id--subtotal em'),
+    total: $('#id--checkout-total em'),
 }
